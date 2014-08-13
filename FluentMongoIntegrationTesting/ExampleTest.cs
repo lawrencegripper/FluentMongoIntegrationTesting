@@ -20,7 +20,7 @@ namespace FluentMongoIntegrationTesting
             mongoEmbedded = new EmbeddedMongoDbServer();
             mongoClient = mongoEmbedded.Client;
             mongoServer = mongoClient.GetServer();
-
+             
         }
 
         [ClassCleanup]
