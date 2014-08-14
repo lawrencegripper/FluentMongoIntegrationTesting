@@ -59,6 +59,26 @@ namespace FluentMongoIntegrationTesting
                 .AssertCollectionHasItemWithProperty<ExampleType>(item, x => x.MyProperty == 1);
         }
 
+        [TestMethod]
+        public void ExampleTest_Failing()
+        {
+            //arrange
+            var databaseName = "testDatabase";
+            var collectionName = typeof(ExampleType).Name;
+            var db = mongoServer.GetDatabase(databaseName);
+            var collection = db.GetCollection<ExampleType>(collectionName);
+
+            //act
+            var item = new ExampleType() { MyProperty = 2 };
+            collection.Insert(item);
+
+            //assert
+            mongoServer.AssertDatabaseExists(databaseName)
+                .AssertCollectionExists<ExampleType>()
+                .AssertCollectionItemCount(1)
+                .AssertCollectionHasItemWithProperty<ExampleType>(item, x => x.MyProperty == 1);
+        }
+
         public class ExampleType
         {
             public ObjectId Id { get; set; }
