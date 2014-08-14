@@ -56,7 +56,30 @@ namespace FluentMongoIntegrationTesting
             mongoServer.AssertDatabaseExists(databaseName)
                 .AssertCollectionExists<ExampleType>()
                 .AssertCollectionItemCount(1)
-                .AssertCollectionHasItemWithProperty<ExampleType>(item, x => x.MyProperty == 1);
+                .AssertCollectionHasItemWithProperty<ExampleType>(x => x.MyProperty == 1);
+        }
+
+        [TestMethod]
+        public void ExampleTest_withItemCount()
+        {
+            //arrange
+            var databaseName = "testDatabase";
+            var collectionName = typeof(ExampleType).Name;
+            var db = mongoServer.GetDatabase(databaseName);
+            var collection = db.GetCollection<ExampleType>(collectionName);
+            var expectedNumberOfItems = 2;
+
+            //act
+            var item1 = new ExampleType() { MyProperty = 1 };
+            collection.Insert(item1);
+            var item2 = new ExampleType() { MyProperty = 1 };
+            collection.Insert(item2);
+
+            //assert
+            mongoServer.AssertDatabaseExists(databaseName)
+                .AssertCollectionExists<ExampleType>()
+                .AssertCollectionItemCount(expectedNumberOfItems)
+                .AssertCollectionHasItemWithProperty<ExampleType>(x => x.MyProperty == 1, expectedNumberOfItems);
         }
 
         [TestMethod]
@@ -76,7 +99,7 @@ namespace FluentMongoIntegrationTesting
             mongoServer.AssertDatabaseExists(databaseName)
                 .AssertCollectionExists<ExampleType>()
                 .AssertCollectionItemCount(1)
-                .AssertCollectionHasItemWithProperty<ExampleType>(item, x => x.MyProperty == 1);
+                .AssertCollectionHasItemWithProperty<ExampleType>(x => x.MyProperty == 1);
         }
 
         public class ExampleType

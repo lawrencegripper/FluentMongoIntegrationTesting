@@ -52,7 +52,7 @@ namespace FluentMongoIntegrationTesting
         }
 
 
-        public static MongoCollection<T> AssertCollectionHasItemWithProperty<T>(this MongoCollection<T> mongoCollection, T item, Expression<Func<T, bool>> itemSelector, int expectNumberOfItems = 1)
+        public static MongoCollection<T> AssertCollectionHasItemWithProperty<T>(this MongoCollection<T> mongoCollection, Expression<Func<T, bool>> itemSelector, int expectNumberOfItems = 1)
         {
             var queryable = mongoCollection.AsQueryable<T>();
             var output = queryable.Where(itemSelector);
